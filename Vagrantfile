@@ -11,12 +11,18 @@ Vagrant.configure("2") do |config|
 
   # Add port-forward for Express app
   config.vm.network :forwarded_port, guest: 3000, host: 3000
+  # Add port-forward for Express app
+  config.vm.network :forwarded_port, guest: 8089, host: 8089
   # Add port-forward for Livereload
   config.vm.network :forwarded_port, guest: 35729, host: 35729
   # Add port-forward for Nginx
   config.vm.network :forwarded_port, guest: 80, host: 80
 
-  config.vm.synced_folder "development/", "/home/vagrant/development"
+  config.vm.network :private_network, ip: "192.168.3.10"
+  config.vm.hostname = "hbit.server.dev"
+
+  config.vm.synced_folder "/Users/alberto/Projects/hbit-server", "/var/www/hbit-server"
+  config.vm.synced_folder "/Users/alberto/Projects/hbit-crud-api", "/var/www/hbit-crud-api"
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = ["cookbooks"]
